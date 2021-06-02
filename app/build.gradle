@@ -1,0 +1,136 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+
+    signingConfigs {
+        releae {
+            storeFile file('..\\key\\contacts-key.jks')
+            storePassword 'ajn1380@sp'
+            keyAlias 'foursquare'
+            keyPassword 'ajn1380@kp'
+        }
+    }
+    compileSdkVersion applicationBuild.compileSdkVersion
+    buildToolsVersion applicationBuild.buildToolsVersion
+
+    buildFeatures {
+        dataBinding = true
+        // for view binding :
+        // viewBinding = true
+    }
+    defaultConfig {
+        applicationId "jafari.alireza.contacts"
+        minSdkVersion applicationBuild.minSdkVersion
+        targetSdkVersion applicationBuild.targetSdkVersion
+        versionCode application.versionCode
+        versionName application.versionName
+        multiDexEnabled true
+
+
+        lintOptions {
+            checkReleaseBuilds true
+            abortOnError true
+        }
+    }
+
+    buildTypes {
+
+        release {
+            multiDexEnabled false
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            signingConfig signingConfigs.releae
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+        }
+        debug {
+            // Disables PNG crunching on DEBUG build type
+            crunchPngs false // Enabled by default for RELEASE build type
+
+
+        }
+        android.applicationVariants.all { variant ->
+            variant.outputs.all {
+                outputFileName = "${"Contacte"}_${variant.buildType.name}_v${defaultConfig.versionName}.apk"
+            }
+        }
+
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+}
+
+dependencies {
+
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$libraryVersion.kotlin"
+
+    // Androidx
+    implementation "androidx.appcompat:appcompat:$libraryVersion.appcompat"
+    implementation "androidx.recyclerview:recyclerview:$libraryVersion.recyclerView"
+
+    // Google material design
+    implementation "com.google.android.material:material:$libraryVersion.material"
+
+
+
+    // Android Architecture Component - ConstraintLayout
+    implementation "androidx.constraintlayout:constraintlayout:$libraryVersion.constraintLayout"
+
+    // Room
+    implementation "androidx.room:room-runtime:$libraryVersion.room"
+    kapt "androidx.room:room-compiler:$libraryVersion.room"
+    implementation "androidx.room:room-ktx:$libraryVersion.room"
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$libraryVersion.hilt"
+    kapt "com.google.dagger:hilt-android-compiler:$libraryVersion.hilt"
+
+    // Hilt Androidx
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$libraryVersion.hiltAndroidxViewmodel"
+    kapt "androidx.hilt:hilt-compiler:$libraryVersion.hiltAndroidx"
+
+//     glide
+//    implementation "com.github.bumptech.glide:glide:$libraryVersion.glide"
+//    kapt "com.github.bumptech.glide:compiler:$libraryVersion.glide"
+
+    // Activity ktx
+    implementation "androidx.activity:activity-ktx:$libraryVersion.activityVersion"
+
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$libraryVersion.coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$libraryVersion.coroutines"
+
+    // Lifecycle
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$libraryVersion.lifecycle"
+
+    // Timber
+    implementation "com.jakewharton.timber:timber:$libraryVersion.timber"
+
+    // LeakCanary for check memory leaks
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$libraryVersion.leakCanary"
+
+
+
+
+    implementation("io.coil-kt:coil:1.2.1")
+
+
+
+}
+
+

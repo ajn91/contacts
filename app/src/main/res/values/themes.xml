@@ -1,0 +1,119 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Contacts" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+
+<!-- Base application theme. -->
+<style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <!-- Customize your theme here. -->
+    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <item name="colorPrimary">@color/colorPrimary</item>
+    <item name="colorOnPrimary">@color/textColorToolbarExpanded</item>
+    <item name="colorAccent">@color/colorAccent</item>
+    <item name="android:colorBackground">@color/backgroundColor</item>
+    <item name="android:textColorPrimary">@android:color/white</item>
+    <item name="android:itemBackground">@android:color/white</item>
+
+</style>
+
+<style name="MainToolbarStyle" parent="Widget.MaterialComponents.Toolbar.Primary">
+    <item name="android:background">@color/backgroundColor</item>
+    <item name="titleTextColor">@color/textTitleColor</item>
+    <item name="colorControlNormal">@color/textTitleColor</item>
+</style>
+
+<style name="AppTheme.Dialog">
+    <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
+</style>
+
+<style name="DialogAnimation">
+    <item name="android:windowEnterAnimation">@anim/fade_in</item>
+    <item name="android:windowExitAnimation">@anim/fade_out</item>
+</style>
+
+
+<style name="TextStyle" parent="TextAppearance.AppCompat">
+
+    <item name="android:textColor">@color/commonTextColor</item>
+    <item name="android:lineSpacingExtra">2dp</item>
+</style>
+
+<style name="TextStyle.Title">
+    <item name="android:textSize">@dimen/text_title_size</item>
+    <item name="android:textColor">@color/textTitleColor</item>
+    <item name="android:textStyle">bold</item>
+</style>
+
+<style name="TextStyle.Title.ToolbarExpanded">
+    <item name="android:textColor">@color/textColorToolbarExpanded</item>
+</style>
+
+<style name="TextStyle.SubTitle">
+    <item name="android:textSize">@dimen/text_sub_title_size</item>
+    <item name="android:textColor">@color/textSubTitleColor</item>
+</style>
+
+<style name="TextStyle.SubTitle.DetailsItem">
+    <item name="android:layout_width">0dp</item>
+    <item name="android:layout_height">wrap_content</item>
+</style>
+
+<style name="TextStyle.Title.ExploreItem">
+    <item name="android:layout_width">0dp</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:drawablePadding">@dimen/drawable_padding</item>
+</style>
+
+<style name="TextStyle.SubTitle.ExploreItem">
+    <item name="android:layout_width">0dp</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:drawablePadding">@dimen/drawable_padding</item>
+</style>
+
+<style name="RatingBarStyle" parent="android:style/Widget.Material.RatingBar.Small">
+    <item name="colorControlActivated">@color/colorAccent</item>
+</style>
+
+<style name="DetailsItemImageStyle">
+    <item name="android:layout_width">@dimen/details_icon_size</item>
+    <item name="android:layout_height">@dimen/details_icon_size</item>
+    <item name="android:layout_marginTop">@dimen/details_item_top_margin</item>
+    <item name="android:scaleType">fitXY</item>
+</style>
+
+<style name="RoundedButton" parent="Widget.AppCompat.Button">
+    <item name="android:layout_height">@dimen/button_normal_height</item>
+    <item name="android:minWidth">@dimen/button_large_width</item>
+    <item name="android:textAllCaps">false</item>
+    <item name="android:textColor">@color/ButtonTextColor</item>
+    <item name="android:textSize">20sp</item>
+    <item name="android:includeFontPadding">false</item>
+</style>
+
+<style name="RoundedButton.Tint">
+    <item name="android:background">@drawable/accent_button_background</item>
+</style>
+
+
+<style name="RoundedButton.Light">
+    <item name="android:background">@drawable/background_color_button_background</item>
+    <item name="android:textColor">@color/textTitleColor</item>
+
+</style>
+
+
+<dimen name="button_normal_height">48dp</dimen>
+<dimen name="button_large_width">96dp</dimen>
+</resources>
