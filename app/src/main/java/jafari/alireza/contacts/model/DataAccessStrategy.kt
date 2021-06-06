@@ -10,15 +10,15 @@ import timber.log.Timber
 fun <T, A> performGetOperation(
     errorMessage: String = "No item available2",
     localFetch: (() -> LiveData<T?>)? = null,
-    remoteFetch: (suspend () -> Resource<A?>)? = null,
-    saveRemoteResult: (suspend (A) -> Unit)? = null,
-    mapRemoteToModel: (suspend (A?) -> T?)? = null
+    externalFetch: (suspend () ->A?)? = null,
+    saveExternalResult: (suspend (A) -> Unit)? = null,
+    mapExternalToModel: (suspend (A?) -> T?)? = null
 
 ): LiveData<Resource<T?>> =
     liveData(Dispatchers.IO) {
         try {
             emit(Resource.loading())
-            if (remoteFetch == null && localFetch == null) {
+            if (externalFetch == null && localFetch == null) {
                 emit(Resource.error(errorMessage))
                 return@liveData
             }
@@ -29,7 +29,7 @@ fun <T, A> performGetOperation(
                         if (it != null)
                             Resource.success(it)
                         else
-                            if (remoteFetch == null)
+                            if (externalFetch == null)
                                 Resource.error<T?>(errorMessage)
                             else
                                 Resource.loading()
@@ -42,19 +42,19 @@ fun <T, A> performGetOperation(
                 }
             }
 
-            if (remoteFetch != null) {
+            if (externalFetch != null) {
                 try {
-                    val responseStatus = remoteFetch.invoke()
-                    if (responseStatus.status == Resource.Status.SUCCESS) {
-                        if (saveRemoteResult != null)
-                            saveRemoteResult(responseStatus.data!!)
+                    val externalData = externalFetch.invoke()
+                    if (externalData != null) {
+                        if (saveExternalResult != null)
+                            saveExternalResult( externalData)
                         else {
-                            val data = mapRemoteToModel!!.invoke(responseStatus.data)
+                            val data = mapExternalToModel!!.invoke( externalData)
                             emit(Resource.success(data))
                         }
 
-                    } else if (responseStatus.status == Resource.Status.ERROR)
-                        emit(Resource.error(responseStatus.message!!))
+                    } else
+                        emit(Resource.error<T?>("error"))
 
                 } catch (e: Exception) {
                     Timber.d("performGetOperation: ${e.message}")

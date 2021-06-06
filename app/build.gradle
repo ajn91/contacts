@@ -7,14 +7,7 @@ plugins {
 
 android {
 
-    signingConfigs {
-        releae {
-            storeFile file('..\\key\\contacts-key.jks')
-            storePassword 'ajn1380@sp'
-            keyAlias 'foursquare'
-            keyPassword 'ajn1380@kp'
-        }
-    }
+
     compileSdkVersion applicationBuild.compileSdkVersion
     buildToolsVersion applicationBuild.buildToolsVersion
 
