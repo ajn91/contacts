@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="category_icon_size">64dp</dimen>
     <dimen name="text_title_size">16dp</dimen>
     <dimen name="text_sub_title_size">14dp</dimen>
-    <dimen name="details_icon_size">20dp</dimen>
+    <dimen name="details_icon_size">32dp</dimen>
     <dimen name="item_corners_radius">4dp</dimen>
-    <dimen name="drawable_padding">8dp</dimen>
-    <dimen name="details_item_top_margin">24dp</dimen>
-    <dimen name="item_image_start_margin">16dp</dimen>
-    <dimen name="details_item_text_start_margin">24dp</dimen>
-    <dimen name="details_map_margin">16dp</dimen>
-    <dimen name="general_margin">16dp</dimen>
-    <dimen name="details_map_size">160dp</dimen>
-    <dimen name="detail_item_end_margin">24dp</dimen>
-    <dimen name="details_header_image_height">240dp</dimen>
     <dimen name="list_item_image_size">72dp</dimen>
     <dimen name="list_item_side_margin">8dp</dimen>
+    <dimen name="details_image_size">96dp</dimen>
+    <dimen name="general_margin">16dp</dimen>
+
 
 </resources>

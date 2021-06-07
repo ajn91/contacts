@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="item"
-            type="jafari.alireza.contacts.model.domain.list.ListModel" />
+            name="phone"
+            type="String" />
 
     </data>
 
@@ -17,30 +17,29 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imageView"
-            android:layout_width="@dimen/list_item_image_size"
-            android:layout_height="@dimen/list_item_image_size"
+            android:layout_width="@dimen/details_icon_size"
+            android:layout_height="@dimen/details_icon_size"
             android:layout_marginStart="@dimen/list_item_side_margin"
             android:layout_marginTop="@dimen/list_item_side_margin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars"
-            imageUri="@{item.avatar}"
+            app:srcCompat="@drawable/ic_phone"
 
             />
 
         <TextView
             android:id="@+id/textView"
-            style="@style/TextStyle.Title.ListItem"
+            style="@style/TextStyle.SubTitle.DetailsItem"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/list_item_side_margin"
             android:layout_marginEnd="@dimen/list_item_side_margin"
-            android:text="@{item.name}"
+            android:text="@{phone}"
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageView"
             tools:text="Name" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

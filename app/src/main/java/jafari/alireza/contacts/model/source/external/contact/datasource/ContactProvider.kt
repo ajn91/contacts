@@ -50,7 +50,7 @@ class ContactProvider @Inject constructor(@ApplicationContext val context: Conte
             if (it.moveToFirst()) {
                 do {
                     val contactId = it.getLong(it.getColumnIndex(CONTACT_PROJECTION[0]))
-                    val name = it.getString(it.getColumnIndex(CONTACT_PROJECTION[2])) ?: ""
+                    val name = it.getString(it.getColumnIndex(CONTACT_PROJECTION[4])) ?: ""
                     val hasPhoneNumber =
                         it.getString(it.getColumnIndex(CONTACT_PROJECTION[3])).toInt()
                     val phoneNumber: List<String> = if (hasPhoneNumber > 0) {
@@ -108,7 +108,8 @@ class ContactProvider @Inject constructor(@ApplicationContext val context: Conte
         ContactsContract.Contacts._ID,
         ContactsContract.Contacts.LOOKUP_KEY,
         ContactsContract.Contacts.DISPLAY_NAME_PRIMARY,
-        ContactsContract.Contacts.HAS_PHONE_NUMBER
+        ContactsContract.Contacts.HAS_PHONE_NUMBER,
+        ContactsContract.Contacts.DISPLAY_NAME_SOURCE
     )
 }
 

@@ -15,7 +15,7 @@
             android:background="@drawable/dialog_background_light_inset"
             android:elevation="8dp">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txt_dialog_title"
                 style="@style/TextStyle.Title"
                 android:layout_width="0dp"
@@ -30,7 +30,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="TextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextView" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txt_dialog_message"
                 style="@style/TextStyle.SubTitle"
                 android:layout_width="0dp"
