@@ -10,6 +10,4 @@ interface ListRepository {
 
     ): LiveData<Resource<List<ListModel>?>>
 
-    suspend fun updateContacts(
-    )
 }

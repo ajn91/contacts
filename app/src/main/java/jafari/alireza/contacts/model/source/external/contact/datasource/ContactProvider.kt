@@ -14,7 +14,7 @@ import javax.inject.Inject
 class ContactProvider @Inject constructor(@ApplicationContext val context: Context) {
 
     @RequiresPermission(Manifest.permission.READ_CONTACTS)
-    suspend fun isContactExists(
+     fun isContactExists(
         phoneNumber: String
     ): Boolean {
         val lookupUri = Uri.withAppendedPath(
@@ -32,7 +32,7 @@ class ContactProvider @Inject constructor(@ApplicationContext val context: Conte
     }
 
     @RequiresPermission(Manifest.permission.READ_CONTACTS)
-    suspend fun retrieveAllContacts(
+     fun retrieveAllContacts(
         searchPattern: String = "",
         retrieveAvatar: Boolean = true,
         limit: Int = -1,
@@ -50,7 +50,7 @@ class ContactProvider @Inject constructor(@ApplicationContext val context: Conte
             if (it.moveToFirst()) {
                 do {
                     val contactId = it.getLong(it.getColumnIndex(CONTACT_PROJECTION[0]))
-                    val name = it.getString(it.getColumnIndex(CONTACT_PROJECTION[4])) ?: ""
+                    val name = it.getString(it.getColumnIndex(CONTACT_PROJECTION[2])) ?: ""
                     val hasPhoneNumber =
                         it.getString(it.getColumnIndex(CONTACT_PROJECTION[3])).toInt()
                     val phoneNumber: List<String> = if (hasPhoneNumber > 0) {
@@ -65,7 +65,7 @@ class ContactProvider @Inject constructor(@ApplicationContext val context: Conte
         return result
     }
 
-    private suspend fun retrievePhoneNumber(contactId: Long): List<String> {
+    private fun retrievePhoneNumber(contactId: Long): List<String> {
         val result: MutableList<String> = mutableListOf()
         context.contentResolver.query(
             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
@@ -76,14 +76,17 @@ class ContactProvider @Inject constructor(@ApplicationContext val context: Conte
         )?.use {
             if (it.moveToFirst()) {
                 do {
-                    result.add(it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)))
+                    val phone =
+                        it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+                    if (!result.contains(phone))
+                        result.add(phone)
                 } while (it.moveToNext())
             }
         }
         return result
     }
 
-   private suspend fun retrieveAvatar(contactId: Long): Uri? {
+    private fun retrieveAvatar(contactId: Long): Uri? {
         return context.contentResolver.query(
             ContactsContract.Data.CONTENT_URI,
             null,
@@ -108,8 +111,7 @@ class ContactProvider @Inject constructor(@ApplicationContext val context: Conte
         ContactsContract.Contacts._ID,
         ContactsContract.Contacts.LOOKUP_KEY,
         ContactsContract.Contacts.DISPLAY_NAME_PRIMARY,
-        ContactsContract.Contacts.HAS_PHONE_NUMBER,
-        ContactsContract.Contacts.DISPLAY_NAME_SOURCE
+        ContactsContract.Contacts.HAS_PHONE_NUMBER
     )
 }
 

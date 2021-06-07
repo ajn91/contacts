@@ -18,5 +18,8 @@
         </intent-filter>
     </activity>
     <activity android:name=".feature.details.DetailsActivity" />
+        <service  android:name=".feature.service.ContactService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            />
     </application>
 </manifest>

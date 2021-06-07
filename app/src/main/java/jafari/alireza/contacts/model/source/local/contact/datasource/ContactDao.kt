@@ -2,10 +2,7 @@ package jafari.alireza.contacts.model.source.local.list.datasource
 
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import jafari.alireza.contacts.model.source.local.list.entity.ContactEntity
 
 
@@ -24,5 +21,7 @@ interface ContactDao {
 
     @Query("DELETE FROM contacts")
     suspend   fun deleteAll()
+    @Delete
+    fun delete(items: List<ContactEntity>)
 
 }

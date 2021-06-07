@@ -10,7 +10,6 @@ class ListLocalDataSourceImp @Inject constructor(
     override fun getContactsLive(): LiveData<List<ContactEntity>> =
         listDao.getAllLive()
 
-    override suspend fun save(contact: ContactEntity): Long = listDao.insert(contact)
 
 
     override suspend fun saveAll(contactList: List<ContactEntity>): List<Long> =

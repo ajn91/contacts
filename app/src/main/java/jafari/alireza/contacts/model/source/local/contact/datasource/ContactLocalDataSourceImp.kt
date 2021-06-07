@@ -13,6 +13,10 @@ class ContactLocalDataSourceImp @Inject constructor(
 
     override suspend fun saveAll(contactList: List<ContactEntity>): List<Long> =
         contactDao.insertAll(contactList)
+    override suspend fun save(contact: ContactEntity): Long = contactDao.insert(contact)
+    override suspend fun delete(contacts: List<ContactEntity>) {
+        contactDao.delete(contacts)
+    }
 
     override suspend fun clear() {
         contactDao.deleteAll()

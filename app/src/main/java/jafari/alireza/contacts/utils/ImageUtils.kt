@@ -14,10 +14,10 @@ object ImageUtils {
         imageView: ImageView,
         @DrawableRes placeHolder: Int = R.drawable.ic_avatar
     ) {
-            imageView.load(uri ) {
-                crossfade(true)
-                fallback(placeHolder)
-
+        imageView.load(uri) {
+            crossfade(true)
+            fallback(placeHolder)
+            error(placeHolder)
 //                transformations(CircleCropTransformation())
 
 //            Glide.with(context)

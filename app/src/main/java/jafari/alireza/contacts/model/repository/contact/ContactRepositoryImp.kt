@@ -5,9 +5,9 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import jafari.alireza.contacts.model.source.external.contact.pojo.asDatabaseEntities
 import jafari.alireza.contacts.model.source.local.list.datasource.ContactExternalDataSource
 import jafari.alireza.contacts.model.source.local.list.datasource.ContactLocalDataSource
-import jafari.alireza.contacts.model.source.local.list.datasource.ListLocalDataSource
-
+import jafari.alireza.contacts.model.source.local.list.entity.ContactEntity
 import javax.inject.Inject
+
 
 class ContactRepositoryImp @Inject constructor(
     private val externalDataSource: ContactExternalDataSource,
@@ -17,26 +17,28 @@ class ContactRepositoryImp @Inject constructor(
 
 
     override suspend fun updateContacts() {
+        val oldData = localDataSource.getContacts()
         val newData = externalDataSource.getContacts().asDatabaseEntities()
-        localDataSource.saveAll(newData)
-//        val oldData =  localDataSource.getContacts()
-//        val newData = externalDataSource.getContacts().asDatabaseEntities()
-//        val diffCallback = ContactsLocalDiffCallback(oldData, newData)
-//        val diffResult = DiffUtil.calculateDiff(diffCallback, false)
-//        diffResult.dispatchUpdatesTo(object :ListUpdateCallback{
-//            override fun onInserted(position: Int, count: Int) {
-//                localDataSource.save(newData.get(position))
-//            }
-//
-//            override fun onRemoved(position: Int, count: Int) {
-//            }
-//
-//            override fun onMoved(fromPosition: Int, toPosition: Int) {
-//            }
-//
-//            override fun onChanged(position: Int, count: Int, payload: Any?) {
-//            }
-//        })
+        removeData(oldData, newData)
+        UpdateData(oldData,newData)
+
+    }
+
+    private suspend fun removeData(oldData: List<ContactEntity>, newData: List<ContactEntity>) {
+        val needToRemoveList = arrayListOf<ContactEntity>()
+        needToRemoveList.addAll(oldData)
+        needToRemoveList.removeAll(newData)
+        if (needToRemoveList.isNotEmpty())
+            localDataSource.delete(needToRemoveList)
+
+    }
+
+    private suspend fun UpdateData(oldData: List<ContactEntity>, newData: List<ContactEntity>) {
+        val needToUpdateList = arrayListOf<ContactEntity>()
+        needToUpdateList.addAll(newData)
+        needToUpdateList.removeAll(oldData)
+        if (needToUpdateList.isNotEmpty())
+            localDataSource.saveAll(needToUpdateList)
 
     }
 

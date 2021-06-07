@@ -24,7 +24,7 @@ class ListViewModel @Inject
 constructor(
     private val savedStateHandle: SavedStateHandle,
     private val listRepository: ListRepository,
-   contactRepository: ContactRepository
+    contactRepository: ContactRepository
 ) : BaseViewModel(contactRepository) {
 
     private var _itemsLive = MediatorLiveData<Resource<List<ListModel>?>>()
@@ -34,7 +34,6 @@ constructor(
     private val _itemLoadedCount = MutableLiveData(0)
     val itemLoadedCount: LiveData<Int>
         get() = _itemLoadedCount
-
 
 
     private val _directToPageLive = MutableLiveData<Event<DirectionParamName?>>()
@@ -55,7 +54,7 @@ constructor(
     }
 
     fun postLoading() {
-        _itemsLive.value =Resource.loading()
+        _itemsLive.value = Resource.loading()
     }
 
 
@@ -65,7 +64,7 @@ constructor(
 
 
     fun getItems() {
-        if (_itemsLive.value?.isSuccess == true )
+        if (_itemsLive.value?.isSuccess == true)
             return
         val dataSource =
             listRepository.getContacts()
@@ -74,15 +73,9 @@ constructor(
 //            if (!it.isLoading)
 //                _itemsLive.removeSource(dataSource)
         }
-        _itemsLive.addSource(contactChangeLive) {
-           updateContacts()
-        }
+
     }
-fun updateContacts(){
-    viewModelScope.launch(Dispatchers.IO){
-        listRepository.updateContacts()
-    }
-}
+
 
     private fun reNewData(location: Location) {
 //        viewModelScope.launch(Dispatchers.IO) {

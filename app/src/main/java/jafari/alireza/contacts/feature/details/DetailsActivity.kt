@@ -1,23 +1,60 @@
 package jafari.alireza.contacts.feature.details
 
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
+import androidx.core.view.ViewCompat
+import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
+import jafari.alireza.contacts.BR
 import jafari.alireza.contacts.R
 import jafari.alireza.contacts.databinding.DetailsActivityBinding
 import jafari.alireza.contacts.feature.base.BaseActivity
+import jafari.alireza.contacts.feature.list.ListAdapter
+import jafari.alireza.contacts.model.Resource
+import jafari.alireza.contacts.model.domain.details.DetailsModel
+import jafari.alireza.contacts.model.domain.list.ListModel
+import jafari.alireza.contacts.utils.MessageUtils
+import jafari.alireza.contacts.utils.NavigationUtils
+import jafari.alireza.foursquare.ui.appinterface.OnItemClickListener
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class DetailsActivity : BaseActivity<DetailsActivityBinding, ListViewModel>(){
+class DetailsActivity : BaseActivity<DetailsActivityBinding, DetailsViewModel>(),
+    OnItemClickListener<String> {
 
-    override val mViewModel: ListViewModel by viewModels()
+
+    override val mViewModel: DetailsViewModel by viewModels()
+
+
+    @Inject
+    lateinit var phoneAdapter: PhoneAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initialiseView()
+
+    }
+
+    private fun setUpList() {
+        val spanCount = resources.getInteger(R.integer.search_list_span_count)
+        val layoutManager = GridLayoutManager(this, spanCount)
+
+        viewDataBinding?.rcv?.apply {
+            this.layoutManager = layoutManager
+            adapter = phoneAdapter
+//            addItemDecoration(UiUtils.createDivider(this@ExploreActivity))
+
+        }
+        phoneAdapter.onItemClickListener = this
 
     }
 
@@ -27,8 +64,7 @@ class DetailsActivity : BaseActivity<DetailsActivityBinding, ListViewModel>(){
     }
 
     override fun getBindingVariable(): Pair<Int, Any?> {
-        return Pair(3,4)
-//        return Pair(BR.viewModel, mViewModel)
+        return Pair(BR.viewModel, mViewModel)
     }
 
     override fun getLayoutId(): Int {
@@ -36,13 +72,28 @@ class DetailsActivity : BaseActivity<DetailsActivityBinding, ListViewModel>(){
     }
 
     override fun setupObserver() {
+        mViewModel.detailsLive.observe(this, ::handleItem)
     }
 
 
+    private fun handleItem(resource: Resource<DetailsModel?>) {
+        when (resource.status) {
+            Resource.Status.SUCCESS -> {
+                viewDataBinding?.toolbar?.toolbar?.title = getString(R.string.app_name)
+                setUpDetailsView(resource.data)
+            }
+            Resource.Status.LOADING -> {
+                viewDataBinding?.toolbar?.toolbar?.title = getString(R.string.loading)
 
+            }
+            Resource.Status.ERROR -> {
+             finish()
+            }
+
+        }
+    }
 
     override fun onStop() {
-
         super.onStop()
 
     }
@@ -51,25 +102,27 @@ class DetailsActivity : BaseActivity<DetailsActivityBinding, ListViewModel>(){
         super.onDestroy()
     }
 
+    private fun setUpDetailsView(detailsModel: DetailsModel?) {
+        detailsModel?.phoneNumber?.let {
+            phoneAdapter.setItems(it)
+        }
 
 
-
-    private fun initialiseView() {
-//        setSupportActionBar(viewDataBinding?.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
 
+    private fun initialiseView() {
+        setUpActionBar()
+        setUpList()
+    }
 
+    private fun setUpActionBar() {
+        setSupportActionBar(viewDataBinding?.toolbar?.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        viewDataBinding?.toolbar?.toolbar?.setNavigationIconColor(
+            ResourcesCompat.getColor(resources, R.color.textTitleColor, null)
+        )
 
-
-
-
-
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
     }
 
     fun Toolbar.setNavigationIconColor(@ColorInt color: Int) = navigationIcon?.mutate()?.let {
@@ -77,7 +130,20 @@ class DetailsActivity : BaseActivity<DetailsActivityBinding, ListViewModel>(){
         this.navigationIcon = it
     }
 
-    companion object {
-        const val ERROR_DIALOG_TAG = "exit"
+    private fun openCallWithIntent(phone: CharSequence?) {
+        phone?.let {
+            NavigationUtils.openCallWithIntent(this, it.toString())
+        }
+    }
+
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
+    override fun onItemClick(item: String) {
+        openCallWithIntent(item)
+
     }
 }

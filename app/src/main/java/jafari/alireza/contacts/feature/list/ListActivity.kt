@@ -1,10 +1,14 @@
 package jafari.alireza.contacts.feature.details
 
 import android.Manifest
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.content.ComponentName
+import android.content.Intent
+import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.provider.ContactsContract
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.GridLayoutManager
@@ -13,8 +17,8 @@ import jafari.alireza.contacts.BR
 import jafari.alireza.contacts.R
 import jafari.alireza.contacts.databinding.ListActivityBinding
 import jafari.alireza.contacts.feature.base.BaseActivity
-import jafari.alireza.contacts.feature.list.ContactObserver
 import jafari.alireza.contacts.feature.list.ListAdapter
+import jafari.alireza.contacts.feature.service.ContactService
 import jafari.alireza.contacts.model.Resource
 import jafari.alireza.contacts.model.domain.list.ListModel
 import jafari.alireza.contacts.utils.*
@@ -33,6 +37,8 @@ class ListActivity : BaseActivity<ListActivityBinding, ListViewModel>(),
     @Inject
     lateinit var listAdapter: ListAdapter
 
+
+    var job:JobInfo? = null
 
     override fun getBindingVariable(): Pair<Int, Any?> {
         return Pair(BR.viewModel, mViewModel)
@@ -164,8 +170,8 @@ class ListActivity : BaseActivity<ListActivityBinding, ListViewModel>(),
                 Manifest.permission.READ_CONTACTS
             ) == PackageManager.PERMISSION_GRANTED
         ) {
+            startContactService()
             mViewModel.getItems()
-            observeContact()
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(
                 arrayOf(Manifest.permission.READ_CONTACTS),
@@ -174,7 +180,16 @@ class ListActivity : BaseActivity<ListActivityBinding, ListViewModel>(),
         }
     }
 
+    private fun startContactService() {
+        if (job != null)
+            return
+        val jobScheduler = application.getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
+        val serviceComponent = ComponentName(this, ContactService::class.java)
+        val builder = JobInfo.Builder(CONTACT_JOB_ID, serviceComponent)
+         job = builder.build()
+        jobScheduler.schedule(job!!)
 
+    }
 
 
     override fun onItemClick(item: ListModel) {
@@ -189,13 +204,18 @@ class ListActivity : BaseActivity<ListActivityBinding, ListViewModel>(),
 
 
     override fun onDestroy() {
-        mViewModel.onStop()
         super.onDestroy()
+        mViewModel.onStop()
+        val jobScheduler = application.getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
+        jobScheduler.cancel(CONTACT_JOB_ID)
+        job = null
+
     }
 
 
     companion object {
         const val REQUEST_CODE_READ_CONTACTS = 855
+        const val CONTACT_JOB_ID = 12
         const val PERMISSION_DIALOG_TAG = "permissionDialogTag"
     }
 

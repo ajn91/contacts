@@ -12,7 +12,7 @@ import jafari.alireza.contacts.model.source.local.list.entity.ContactEntity
 @Dao
 interface ListDao:ContactDao {
 
-    @Query("SELECT * FROM contacts")
+    @Query("SELECT * FROM contacts ORDER BY name")
     fun getAllLive(): LiveData<List<ContactEntity>>
 
 
