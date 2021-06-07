@@ -2,12 +2,10 @@ package jafari.alireza.contacts.feature.base
 
 
 import android.os.Bundle
-import android.provider.ContactsContract
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import jafari.alireza.contacts.utils.EventObserver
 
 
 abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel> : AppCompatActivity() {
@@ -57,10 +55,6 @@ abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel> : AppCompatA
         super.onDestroy()
     }
 
-    override fun onPause() {
-
-        super.onPause()
-    }
 
 }
 

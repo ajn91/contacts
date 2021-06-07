@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.scopes.ActivityScoped
 import jafari.alireza.contacts.databinding.ListItemBinding
+import jafari.alireza.contacts.feature.appinterface.OnItemClickListener
 import jafari.alireza.contacts.model.domain.list.ListModel
-import jafari.alireza.foursquare.ui.appinterface.OnItemClickListener
 import javax.inject.Inject
 
 @ActivityScoped
@@ -18,7 +18,6 @@ class ListAdapter @Inject constructor() :
     private var mItems : MutableList<ListModel> = mutableListOf()
 
 
-    //     to use DiffUtil use this method
     fun setItems(items: List<ListModel>) {
         val diffCallback = ContactsDiffCallback(mItems, items)
         val diffResult = DiffUtil.calculateDiff(diffCallback, true)

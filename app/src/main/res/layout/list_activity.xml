@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="jafari.alireza.contacts.feature.details.ListViewModel" />
+            type="jafari.alireza.contacts.feature.list.ListViewModel" />
 
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout

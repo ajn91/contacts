@@ -1,4 +1,4 @@
-package jafari.alireza.contacts.model.source.local.list.converter
+package jafari.alireza.contacts.model.source.local.contact.converter
 
 import androidx.annotation.Keep
 import androidx.room.TypeConverter

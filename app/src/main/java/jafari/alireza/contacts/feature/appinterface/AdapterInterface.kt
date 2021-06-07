@@ -1,4 +1,4 @@
-package jafari.alireza.foursquare.ui.appinterface
+package jafari.alireza.contacts.feature.appinterface
 
 
 interface OnItemClickListener<T> {

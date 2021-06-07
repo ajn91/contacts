@@ -1,4 +1,4 @@
-package jafari.alireza.contacts.model.source.local.list.datasource
+package jafari.alireza.contacts.model.source.external.contact.datasource
 
 import android.Manifest
 import androidx.annotation.RequiresPermission
@@ -10,8 +10,8 @@ class ContactExternalDataSourceImp @Inject constructor(
 ) : ContactExternalDataSource {
 
     @RequiresPermission(Manifest.permission.READ_CONTACTS)
-    override suspend fun getContacts(): List<ContactExternal> {
-       return contactProvider.retrieveAllContacts()
+    override fun getContacts(): List<ContactExternal> {
+        return contactProvider.retrieveAllContacts()
     }
 
 

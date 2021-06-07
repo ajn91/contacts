@@ -26,18 +26,16 @@ fun <T, A> performGetOperation(
             if (localFetch != null) {
                 try {
                     val source = localFetch.invoke().map {
-                        if (it != null)
-                            Resource.success(it)
-                        else
-                            if (externalFetch == null)
-                                Resource.error<T?>(errorMessage)
-                            else
-                                Resource.loading()
+                        when {
+                            it != null -> Resource.success(it)
+                            externalFetch == null -> Resource.error<T>(errorMessage)
+                            else -> Resource.loading()
+                        }
                     }
                     emitSource(source)
                 } catch (e: Exception) {
                     Timber.d("performGetOperation: ${e.message}")
-                    emit(Resource.error<T?>(errorMessage))
+                    emit(Resource.error<T>(errorMessage))
 
                 }
             }
@@ -54,17 +52,17 @@ fun <T, A> performGetOperation(
                         }
 
                     } else
-                        emit(Resource.error<T?>("error"))
+                        emit(Resource.error<T>("error"))
 
                 } catch (e: Exception) {
                     Timber.d("performGetOperation: ${e.message}")
-                    emit(Resource.error<T?>(errorMessage))
+                    emit(Resource.error<T>(errorMessage))
 
                 }
             }
         } catch (e: Exception) {
             Timber.d("performGetOperation: ${e.message}")
-            emit(Resource.error<T?>(errorMessage))
+            emit(Resource.error<T>(errorMessage))
 
         }
 

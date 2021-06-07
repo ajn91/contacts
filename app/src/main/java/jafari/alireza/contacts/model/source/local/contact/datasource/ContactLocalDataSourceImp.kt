@@ -1,7 +1,6 @@
-package jafari.alireza.contacts.model.source.local.list.datasource
+package jafari.alireza.contacts.model.source.local.contact.datasource
 
-import androidx.lifecycle.LiveData
-import jafari.alireza.contacts.model.source.local.list.entity.ContactEntity
+import jafari.alireza.contacts.model.source.local.contact.entity.ContactEntity
 import javax.inject.Inject
 
 class ContactLocalDataSourceImp @Inject constructor(
@@ -13,8 +12,9 @@ class ContactLocalDataSourceImp @Inject constructor(
 
     override suspend fun saveAll(contactList: List<ContactEntity>): List<Long> =
         contactDao.insertAll(contactList)
+
     override suspend fun save(contact: ContactEntity): Long = contactDao.insert(contact)
-    override suspend fun delete(contacts: List<ContactEntity>) {
+    override fun delete(contacts: List<ContactEntity>) {
         contactDao.delete(contacts)
     }
 

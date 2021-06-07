@@ -29,8 +29,6 @@ constructor(
             MutableLiveData(Resource.error("Missing ID"))
         else
             detailsRepository.getDetails(id)
-
-
     }
 
 }

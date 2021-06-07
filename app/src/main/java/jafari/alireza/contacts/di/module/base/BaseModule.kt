@@ -1,18 +1,16 @@
 package jafari.alireza.contacts.di.module.base
 
 
-import android.app.Application
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
-import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import jafari.alireza.contacts.model.repository.contact.ContactRepository
 import jafari.alireza.contacts.model.repository.contact.ContactRepositoryImp
-import jafari.alireza.contacts.model.repository.list.ListRepository
-import jafari.alireza.contacts.model.repository.list.ListRepositoryImp
-import jafari.alireza.contacts.model.source.local.list.datasource.*
+import jafari.alireza.contacts.model.source.external.contact.datasource.ContactExternalDataSource
+import jafari.alireza.contacts.model.source.external.contact.datasource.ContactExternalDataSourceImp
+import jafari.alireza.contacts.model.source.local.contact.datasource.ContactLocalDataSource
+import jafari.alireza.contacts.model.source.local.contact.datasource.ContactLocalDataSourceImp
 import javax.inject.Singleton
 
 
@@ -27,17 +25,16 @@ internal interface BaseModule {
     ): ContactRepository
 
 
-
     @Singleton
     @Binds
-    fun bindLocalDataSource(
+    fun bindContactLocalDataSource(
         input: ContactLocalDataSourceImp
     ): ContactLocalDataSource
 
 
     @Singleton
     @Binds
-    fun bindExternalDataSource(
+    fun bindContactExternalDataSource(
         input: ContactExternalDataSourceImp
     ): ContactExternalDataSource
 }

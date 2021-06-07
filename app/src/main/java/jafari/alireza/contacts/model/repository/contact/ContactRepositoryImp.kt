@@ -2,29 +2,31 @@ package jafari.alireza.contacts.model.repository.contact
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
+import jafari.alireza.contacts.model.source.external.contact.datasource.ContactExternalDataSource
 import jafari.alireza.contacts.model.source.external.contact.pojo.asDatabaseEntities
-import jafari.alireza.contacts.model.source.local.list.datasource.ContactExternalDataSource
-import jafari.alireza.contacts.model.source.local.list.datasource.ContactLocalDataSource
-import jafari.alireza.contacts.model.source.local.list.entity.ContactEntity
+import jafari.alireza.contacts.model.source.local.contact.datasource.ContactLocalDataSource
+import jafari.alireza.contacts.model.source.local.contact.entity.ContactEntity
 import javax.inject.Inject
 
 
 class ContactRepositoryImp @Inject constructor(
-    private val externalDataSource: ContactExternalDataSource,
-    private val localDataSource: ContactLocalDataSource,
+    val externalDataSource: ContactExternalDataSource,
+    val localDataSource: ContactLocalDataSource,
     @ApplicationContext val context: Context
 ) : ContactRepository {
 
 
     override suspend fun updateContacts() {
+
         val oldData = localDataSource.getContacts()
         val newData = externalDataSource.getContacts().asDatabaseEntities()
         removeData(oldData, newData)
-        UpdateData(oldData,newData)
+        updateData(oldData, newData)
 
     }
 
-    private suspend fun removeData(oldData: List<ContactEntity>, newData: List<ContactEntity>) {
+    private fun removeData(oldData: List<ContactEntity>, newData: List<ContactEntity>) {
+
         val needToRemoveList = arrayListOf<ContactEntity>()
         needToRemoveList.addAll(oldData)
         needToRemoveList.removeAll(newData)
@@ -33,7 +35,7 @@ class ContactRepositoryImp @Inject constructor(
 
     }
 
-    private suspend fun UpdateData(oldData: List<ContactEntity>, newData: List<ContactEntity>) {
+    private suspend fun updateData(oldData: List<ContactEntity>, newData: List<ContactEntity>) {
         val needToUpdateList = arrayListOf<ContactEntity>()
         needToUpdateList.addAll(newData)
         needToUpdateList.removeAll(oldData)

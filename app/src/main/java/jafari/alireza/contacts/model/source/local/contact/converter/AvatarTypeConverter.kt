@@ -1,4 +1,4 @@
-package jafari.alireza.contacts.model.source.local.list.converter
+package jafari.alireza.contacts.model.source.local.contact.converter
 
 import android.net.Uri
 import androidx.annotation.Keep
@@ -6,7 +6,6 @@ import androidx.room.TypeConverter
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import okhttp3.internal.Util
 
 @Keep
 class AvatarTypeConverter {

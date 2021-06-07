@@ -1,29 +1,30 @@
-package jafari.alireza.contacts.feature.details
+package jafari.alireza.contacts.feature.list
 
 import android.Manifest
-import android.app.job.JobInfo
-import android.app.job.JobScheduler
-import android.content.ComponentName
-import android.content.Intent
-import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.work.*
 import dagger.hilt.android.AndroidEntryPoint
 import jafari.alireza.contacts.BR
 import jafari.alireza.contacts.R
 import jafari.alireza.contacts.databinding.ListActivityBinding
+import jafari.alireza.contacts.feature.appinterface.OnItemClickListener
 import jafari.alireza.contacts.feature.base.BaseActivity
-import jafari.alireza.contacts.feature.list.ListAdapter
-import jafari.alireza.contacts.feature.service.ContactService
+import jafari.alireza.contacts.feature.details.DetailsActivity
+import jafari.alireza.contacts.feature.service.ContactWorker
 import jafari.alireza.contacts.model.Resource
 import jafari.alireza.contacts.model.domain.list.ListModel
-import jafari.alireza.contacts.utils.*
-import jafari.alireza.foursquare.ui.appinterface.OnItemClickListener
+import jafari.alireza.contacts.utils.DetailsParams
+import jafari.alireza.contacts.utils.DirectionParamName
+import jafari.alireza.contacts.utils.EventObserver
+import jafari.alireza.contacts.utils.NavigationUtils
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
@@ -38,7 +39,7 @@ class ListActivity : BaseActivity<ListActivityBinding, ListViewModel>(),
     lateinit var listAdapter: ListAdapter
 
 
-    var job:JobInfo? = null
+    var contactWorker: OneTimeWorkRequest? = null
 
     override fun getBindingVariable(): Pair<Int, Any?> {
         return Pair(BR.viewModel, mViewModel)
@@ -53,8 +54,6 @@ class ListActivity : BaseActivity<ListActivityBinding, ListViewModel>(),
         mViewModel.messageStringLive.observe(this, EventObserver(::handleMessage))
         mViewModel.messageIdLive.observe(this, EventObserver(::handleMessageResource))
         mViewModel.itemsLive.observe(this, ::handleItems)
-        mViewModel.itemLoadedCount.observe(this, ::handleNeedToRenewData)
-        mViewModel.needInitializeLive.observe(this, {})
 
     }
 
@@ -65,16 +64,6 @@ class ListActivity : BaseActivity<ListActivityBinding, ListViewModel>(),
 
     }
 
-    override fun onResume() {
-        super.onResume()
-//        mViewModel.updateContacts()
-    }
-
-
-    private fun handleNeedToRenewData(itemLoadedCount: Int?) {
-//        if (itemLoadedCount == 0)
-//            ListAdapter.removeAllItems()
-    }
 
     private fun handleMessageResource(id: Int?) {
         id?.let {
@@ -88,7 +77,6 @@ class ListActivity : BaseActivity<ListActivityBinding, ListViewModel>(),
     }
 
     private fun directToPage(directionParamName: DirectionParamName?) {
-
         when (directionParamName) {
             is DirectionParamName.DetailsParams -> goToDetailsPage(directionParamName.id)
 
@@ -106,6 +94,12 @@ class ListActivity : BaseActivity<ListActivityBinding, ListViewModel>(),
         when (result?.status) {
             Resource.Status.SUCCESS ->
                 result.data?.let {
+                    if (it.isEmpty()) {
+                        setStatusText(
+                            getString(R.string.error_no_item_available)
+                        )
+                        return
+                    }
                     listAdapter.setItems(it)
                     mViewModel.setItemLoadedCount(listAdapter.itemCount)
                 }
@@ -126,11 +120,7 @@ class ListActivity : BaseActivity<ListActivityBinding, ListViewModel>(),
         if (mViewModel.itemLoadedCount.value == 0)
             viewDataBinding?.txtListStatus?.text = statusNoItem
         else if (statusNormal != null)
-            MessageUtils.showInfoDialog(
-                supportFragmentManager,
-                "",
-                statusNormal
-            )
+            Toast.makeText(baseContext, statusNormal, Toast.LENGTH_LONG).show()
     }
 
 
@@ -181,13 +171,24 @@ class ListActivity : BaseActivity<ListActivityBinding, ListViewModel>(),
     }
 
     private fun startContactService() {
-        if (job != null)
+        if (contactWorker != null)
             return
-        val jobScheduler = application.getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
-        val serviceComponent = ComponentName(this, ContactService::class.java)
-        val builder = JobInfo.Builder(CONTACT_JOB_ID, serviceComponent)
-         job = builder.build()
-        jobScheduler.schedule(job!!)
+        val constraint =
+            Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.NOT_REQUIRED).build()
+
+        contactWorker =
+            OneTimeWorkRequest.Builder(ContactWorker::class.java)
+                .setConstraints(constraint)
+                .setBackoffCriteria(
+                    BackoffPolicy.LINEAR,
+                    OneTimeWorkRequest.MIN_BACKOFF_MILLIS,
+                    TimeUnit.MILLISECONDS
+                )
+                .build()
+
+        WorkManager.getInstance(this).enqueue(contactWorker!!)
+
 
     }
 
@@ -206,17 +207,16 @@ class ListActivity : BaseActivity<ListActivityBinding, ListViewModel>(),
     override fun onDestroy() {
         super.onDestroy()
         mViewModel.onStop()
-        val jobScheduler = application.getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
-        jobScheduler.cancel(CONTACT_JOB_ID)
-        job = null
+        if (contactWorker != null) {
+            WorkManager.getInstance(this).cancelWorkById(contactWorker!!.id)
+            contactWorker = null
+        }
 
     }
 
 
     companion object {
         const val REQUEST_CODE_READ_CONTACTS = 855
-        const val CONTACT_JOB_ID = 12
-        const val PERMISSION_DIALOG_TAG = "permissionDialogTag"
     }
 
 

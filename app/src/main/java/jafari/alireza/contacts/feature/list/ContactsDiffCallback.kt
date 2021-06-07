@@ -24,7 +24,7 @@ class ContactsDiffCallback(
             val oldItem = mOldList[oldItemPosition]
             val newItem = mNewList[newItemPosition]
 
-            return (newItem.equals(oldItem))
+            return (newItem == oldItem)
         }
 
     }

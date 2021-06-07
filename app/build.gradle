@@ -9,6 +9,14 @@ plugins {
 
 android {
 
+    signingConfigs {
+        releae {
+            storeFile file('..\\key\\key.jks')
+            storePassword '123456'
+            keyAlias 'Contact'
+            keyPassword '123456'
+        }
+    }
 
     compileSdkVersion applicationBuild.compileSdkVersion
     buildToolsVersion applicationBuild.buildToolsVersion
@@ -41,6 +49,7 @@ android {
             minifyEnabled true
             shrinkResources true
             zipAlignEnabled true
+            signingConfig signingConfigs.releae
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
         }
@@ -123,6 +132,15 @@ dependencies {
 
     //coil image loader
     implementation "io.coil-kt:coil:$libraryVersion.coil"
+
+    // Worker Kotlin + coroutines
+    implementation "androidx.work:work-runtime-ktx:$libraryVersion.worker"
+
+    //startup
+    implementation "androidx.startup:startup-runtime:$libraryVersion.startup"
+
+    // Hilt worker
+    implementation "androidx.hilt:hilt-work:$libraryVersion.hiltWorker"
 
 
 }

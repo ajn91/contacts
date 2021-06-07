@@ -1,4 +1,4 @@
-package jafari.alireza.contacts.model.source.local.list.datasource
+package jafari.alireza.contacts.model.source.external.contact.datasource
 
 
 import android.Manifest
@@ -14,7 +14,7 @@ import javax.inject.Inject
 class ContactProvider @Inject constructor(@ApplicationContext val context: Context) {
 
     @RequiresPermission(Manifest.permission.READ_CONTACTS)
-     fun isContactExists(
+    fun isContactExists(
         phoneNumber: String
     ): Boolean {
         val lookupUri = Uri.withAppendedPath(
@@ -32,7 +32,7 @@ class ContactProvider @Inject constructor(@ApplicationContext val context: Conte
     }
 
     @RequiresPermission(Manifest.permission.READ_CONTACTS)
-     fun retrieveAllContacts(
+    fun retrieveAllContacts(
         searchPattern: String = "",
         retrieveAvatar: Boolean = true,
         limit: Int = -1,
@@ -107,11 +107,14 @@ class ContactProvider @Inject constructor(@ApplicationContext val context: Conte
         }
     }
 
-    private val CONTACT_PROJECTION = arrayOf(
-        ContactsContract.Contacts._ID,
-        ContactsContract.Contacts.LOOKUP_KEY,
-        ContactsContract.Contacts.DISPLAY_NAME_PRIMARY,
-        ContactsContract.Contacts.HAS_PHONE_NUMBER
-    )
+    companion object {
+
+        val CONTACT_PROJECTION = arrayOf(
+            ContactsContract.Contacts._ID,
+            ContactsContract.Contacts.LOOKUP_KEY,
+            ContactsContract.Contacts.DISPLAY_NAME_PRIMARY,
+            ContactsContract.Contacts.HAS_PHONE_NUMBER
+        )
+    }
 }
 

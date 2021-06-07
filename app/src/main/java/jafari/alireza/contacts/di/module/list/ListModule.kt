@@ -8,8 +8,6 @@ import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
 import jafari.alireza.contacts.model.repository.list.ListRepository
 import jafari.alireza.contacts.model.repository.list.ListRepositoryImp
-import jafari.alireza.contacts.model.source.local.list.datasource.ContactExternalDataSource
-import jafari.alireza.contacts.model.source.local.list.datasource.ContactExternalDataSourceImp
 import jafari.alireza.contacts.model.source.local.list.datasource.ListLocalDataSource
 import jafari.alireza.contacts.model.source.local.list.datasource.ListLocalDataSourceImp
 

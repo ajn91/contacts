@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.scopes.ActivityScoped
 import jafari.alireza.contacts.databinding.PhoneItemBinding
-import jafari.alireza.foursquare.ui.appinterface.OnItemClickListener
+import jafari.alireza.contacts.feature.appinterface.OnItemClickListener
 import javax.inject.Inject
 
 @ActivityScoped
@@ -17,7 +17,6 @@ class PhoneAdapter @Inject constructor() :
     private var mItems: MutableList<String> = mutableListOf()
 
 
-    //     to use DiffUtil use this method
     fun setItems(items: List<String>) {
         val diffCallback = DiffCallback(mItems, items)
         val diffResult = DiffUtil.calculateDiff(diffCallback, true)

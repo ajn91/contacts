@@ -3,19 +3,15 @@ package jafari.alireza.contacts.model.source.local.list.datasource
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import jafari.alireza.contacts.model.source.local.list.entity.ContactEntity
+import jafari.alireza.contacts.model.source.local.contact.entity.ContactEntity
 
 
 @Dao
-interface ListDao:ContactDao {
+interface ListDao {
 
     @Query("SELECT * FROM contacts ORDER BY name")
     fun getAllLive(): LiveData<List<ContactEntity>>
-
-
 
 
 }

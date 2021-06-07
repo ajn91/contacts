@@ -1,4 +1,4 @@
-package jafari.alireza.contacts.model.source.local.list.entity
+package jafari.alireza.contacts.model.source.local.contact.entity
 
 import android.net.Uri
 import androidx.room.Entity
@@ -14,11 +14,12 @@ data class ContactEntity(
     val phoneNumber: List<String>?,
     val avatar: String?
 )
+
 fun ContactEntity.asListModel() =
     ListModel(
-       contactId = contactId,
+        contactId = contactId,
         name = name,
-        avatar = if (avatar !=null ) Uri.parse(avatar) else null
+        avatar = if (avatar != null) Uri.parse(avatar) else null
 
     )
 
@@ -27,7 +28,7 @@ fun ContactEntity.asDetailsModel() =
         contactId = contactId,
         name = name,
         phoneNumber = phoneNumber,
-        avatar = if (avatar !=null ) Uri.parse(avatar) else null
+        avatar = if (avatar != null) Uri.parse(avatar) else null
 
     )
 

@@ -18,16 +18,7 @@ object ImageUtils {
             crossfade(true)
             fallback(placeHolder)
             error(placeHolder)
-//                transformations(CircleCropTransformation())
 
-//            Glide.with(context)
-//                .load(url)
-//                .transform(CenterInside(), RoundedCorners(16))
-//                .placeholder(placeHolder)
-//                .error(placeHolder)
-//                .dontAnimate()
-//                .transition(DrawableTransitionOptions.withCrossFade())
-//                .into(imageView)
         }
     }
 

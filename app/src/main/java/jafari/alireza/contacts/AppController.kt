@@ -1,13 +1,17 @@
 package jafari.alireza.contacts
 
 import android.app.Application
-import android.provider.ContactsContract
+import androidx.hilt.work.HiltWorkerFactory
+import androidx.work.Configuration
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltAndroidApp
-class AppController : Application() {
+class AppController : Application(), Configuration.Provider {
 
+    @Inject
+    lateinit var workerFactory: HiltWorkerFactory
 
     override fun onCreate() {
         super.onCreate()
@@ -16,5 +20,9 @@ class AppController : Application() {
 
     }
 
+    override fun getWorkManagerConfiguration() =
+        Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .build()
 
 }

@@ -1,9 +1,9 @@
-package jafari.alireza.contacts.model.source.local.list.datasource
+package jafari.alireza.contacts.model.source.external.contact.datasource
 
 import jafari.alireza.contacts.model.source.external.contact.pojo.ContactExternal
 
 
 interface ContactExternalDataSource {
 
-suspend fun getContacts():  List<ContactExternal>
+ fun getContacts(): List<ContactExternal>
 }

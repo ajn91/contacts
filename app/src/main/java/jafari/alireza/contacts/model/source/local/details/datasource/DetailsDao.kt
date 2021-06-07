@@ -3,7 +3,7 @@ package jafari.alireza.contacts.model.source.local.details.datasource
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
-import jafari.alireza.contacts.model.source.local.list.entity.ContactEntity
+import jafari.alireza.contacts.model.source.local.contact.entity.ContactEntity
 
 @Dao
 interface DetailsDao {

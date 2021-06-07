@@ -1,29 +1,20 @@
 package jafari.alireza.contacts.feature.details
 
-import android.graphics.Color
 import android.os.Bundle
-import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
-import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
 import jafari.alireza.contacts.BR
 import jafari.alireza.contacts.R
 import jafari.alireza.contacts.databinding.DetailsActivityBinding
+import jafari.alireza.contacts.feature.appinterface.OnItemClickListener
 import jafari.alireza.contacts.feature.base.BaseActivity
-import jafari.alireza.contacts.feature.list.ListAdapter
 import jafari.alireza.contacts.model.Resource
 import jafari.alireza.contacts.model.domain.details.DetailsModel
-import jafari.alireza.contacts.model.domain.list.ListModel
-import jafari.alireza.contacts.utils.MessageUtils
 import jafari.alireza.contacts.utils.NavigationUtils
-import jafari.alireza.foursquare.ui.appinterface.OnItemClickListener
 import javax.inject.Inject
 
 
@@ -58,10 +49,7 @@ class DetailsActivity : BaseActivity<DetailsActivityBinding, DetailsViewModel>()
 
     }
 
-    override fun onStart() {
-        super.onStart()
 
-    }
 
     override fun getBindingVariable(): Pair<Int, Any?> {
         return Pair(BR.viewModel, mViewModel)
@@ -93,21 +81,11 @@ class DetailsActivity : BaseActivity<DetailsActivityBinding, DetailsViewModel>()
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
 
     private fun setUpDetailsView(detailsModel: DetailsModel?) {
         detailsModel?.phoneNumber?.let {
             phoneAdapter.setItems(it)
         }
-
-
     }
 
 

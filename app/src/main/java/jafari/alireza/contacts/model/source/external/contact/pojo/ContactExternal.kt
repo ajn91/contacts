@@ -2,7 +2,7 @@ package jafari.alireza.contacts.model.source.external.contact.pojo
 
 import android.net.Uri
 import jafari.alireza.contacts.model.domain.list.ListModel
-import jafari.alireza.contacts.model.source.local.list.entity.ContactEntity
+import jafari.alireza.contacts.model.source.local.contact.entity.ContactEntity
 
 data class ContactExternal(
     val contactId: Long,
@@ -10,12 +10,13 @@ data class ContactExternal(
     val phoneNumber: List<String>,
     val avatar: Uri?
 )
+
 fun ContactExternal.asDatabaseEntity() =
     ContactEntity(
         contactId = contactId,
         name = name,
         phoneNumber = phoneNumber,
-        avatar = if (avatar !=null) avatar.toString() else null
+        avatar = avatar?.toString()
 
     )
 

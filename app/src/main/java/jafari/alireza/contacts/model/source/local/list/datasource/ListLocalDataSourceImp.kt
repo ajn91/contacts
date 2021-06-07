@@ -1,7 +1,7 @@
 package jafari.alireza.contacts.model.source.local.list.datasource
 
 import androidx.lifecycle.LiveData
-import jafari.alireza.contacts.model.source.local.list.entity.ContactEntity
+import jafari.alireza.contacts.model.source.local.contact.entity.ContactEntity
 import javax.inject.Inject
 
 class ListLocalDataSourceImp @Inject constructor(
@@ -11,13 +11,6 @@ class ListLocalDataSourceImp @Inject constructor(
         listDao.getAllLive()
 
 
-
-    override suspend fun saveAll(contactList: List<ContactEntity>): List<Long> =
-        listDao.insertAll(contactList)
-
-    override suspend fun clear() {
-        listDao.deleteAll()
-    }
 
 
 }
