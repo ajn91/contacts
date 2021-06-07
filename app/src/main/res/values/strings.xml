@@ -2,5 +2,7 @@
     <string name="app_name">Contacts</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="loading">Loading…</string>
+    <string name="error_no_item_available">No item available</string>
 
 </resources>

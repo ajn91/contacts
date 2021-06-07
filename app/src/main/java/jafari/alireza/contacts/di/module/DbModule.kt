@@ -31,6 +31,9 @@ class DbModule {
     @Singleton
     internal fun provideDetailsDao(appDatabase: AppDatabase) = appDatabase.detailsDao
 
+    @Provides
+    @Singleton
+    internal fun provideContactDao(appDatabase: AppDatabase) = appDatabase.contactDao
 
     @Provides
     @Singleton

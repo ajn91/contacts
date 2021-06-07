@@ -3,6 +3,8 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'kotlinx-serialization'
+
 }
 
 android {
@@ -39,7 +41,6 @@ android {
             minifyEnabled true
             shrinkResources true
             zipAlignEnabled true
-            signingConfig signingConfigs.releae
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
         }
@@ -80,7 +81,6 @@ dependencies {
     implementation "com.google.android.material:material:$libraryVersion.material"
 
 
-
     // Android Architecture Component - ConstraintLayout
     implementation "androidx.constraintlayout:constraintlayout:$libraryVersion.constraintLayout"
 
@@ -117,11 +117,12 @@ dependencies {
     // LeakCanary for check memory leaks
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$libraryVersion.leakCanary"
 
+    //kotlinx serialization json
 
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$libraryVersion.kotlinxSerializationJson"
 
-
-    implementation("io.coil-kt:coil:1.2.1")
-
+    //coil image loader
+    implementation "io.coil-kt:coil:$libraryVersion.coil"
 
 
 }

@@ -7,8 +7,8 @@ import javax.inject.Inject
 class ListLocalDataSourceImp @Inject constructor(
     private val listDao: ListDao
 ) : ListLocalDataSource {
-    override fun getContacts(): LiveData<List<ContactEntity>> =
-        listDao.getAll()
+    override fun getContactsLive(): LiveData<List<ContactEntity>> =
+        listDao.getAllLive()
 
     override suspend fun save(contact: ContactEntity): Long = listDao.insert(contact)
 

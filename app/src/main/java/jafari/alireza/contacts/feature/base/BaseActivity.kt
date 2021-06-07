@@ -2,10 +2,12 @@ package jafari.alireza.contacts.feature.base
 
 
 import android.os.Bundle
+import android.provider.ContactsContract
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import jafari.alireza.contacts.feature.list.ContactObserver
 
 
 abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel> : AppCompatActivity() {
@@ -14,6 +16,7 @@ abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel> : AppCompatA
         private set
     abstract val mViewModel: V?
 
+    var contactObserver: ContactObserver? = null
 
 
     /**
@@ -45,9 +48,19 @@ abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel> : AppCompatA
         viewDataBinding!!.executePendingBindings()
 
     }
+    protected fun observeContact() {
+        contactObserver = ContactObserver(mViewModel!!.contactChangeLive)
+       contentResolver
+            .registerContentObserver(
+                ContactsContract.Contacts.CONTENT_URI, true, contactObserver!!
+            )
+
+    }
 
     override fun onDestroy() {
         mViewModel?.onStop()
+        if (contactObserver != null)
+        contentResolver.unregisterContentObserver(contactObserver!!)
         super.onDestroy()
     }
 

@@ -11,13 +11,13 @@ data class ContactEntity(
     val contactId: Long,
     val name: String,
     val phoneNumber: List<String>,
-    val avatar: Uri?
+    val avatar: String?
 )
 fun ContactEntity.asListModel() =
     ListModel(
        contactId = contactId,
         name = name,
-        avatar = avatar
+        avatar = if (avatar !=null ) Uri.parse(avatar) else null
 
     )
 

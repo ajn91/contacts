@@ -14,5 +14,7 @@
     <dimen name="details_map_size">160dp</dimen>
     <dimen name="detail_item_end_margin">24dp</dimen>
     <dimen name="details_header_image_height">240dp</dimen>
+    <dimen name="list_item_image_size">72dp</dimen>
+    <dimen name="list_item_side_margin">8dp</dimen>
 
 </resources>

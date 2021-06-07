@@ -1,5 +1,6 @@
 package jafari.alireza.contacts.utils
 
+import android.net.Uri
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import coil.load
@@ -9,13 +10,14 @@ import jafari.alireza.contacts.R
 object ImageUtils {
 
     fun showImage(
-        url: String?,
+        uri: Uri?,
         imageView: ImageView,
-        @DrawableRes placeHolder: Int = R.color.colorAccent
+        @DrawableRes placeHolder: Int = R.drawable.ic_avatar
     ) {
-            imageView.load(url) {
+            imageView.load(uri ) {
                 crossfade(true)
-                placeholder(placeHolder)
+                fallback(placeHolder)
+
 //                transformations(CircleCropTransformation())
 
 //            Glide.with(context)

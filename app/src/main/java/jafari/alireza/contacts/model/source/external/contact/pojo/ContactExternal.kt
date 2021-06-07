@@ -1,4 +1,4 @@
-package jafari.alireza.contacts.model.source.external.list.pojo
+package jafari.alireza.contacts.model.source.external.contact.pojo
 
 import android.net.Uri
 import jafari.alireza.contacts.model.domain.list.ListModel
@@ -15,7 +15,7 @@ fun ContactExternal.asDatabaseEntity() =
         contactId = contactId,
         name = name,
         phoneNumber = phoneNumber,
-        avatar = avatar
+        avatar = if (avatar !=null) avatar.toString() else null
 
     )
 

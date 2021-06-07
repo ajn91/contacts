@@ -8,7 +8,7 @@ import android.net.Uri
 import android.provider.ContactsContract
 import androidx.annotation.RequiresPermission
 import dagger.hilt.android.qualifiers.ApplicationContext
-import jafari.alireza.contacts.model.source.external.list.pojo.ContactExternal
+import jafari.alireza.contacts.model.source.external.contact.pojo.ContactExternal
 import javax.inject.Inject
 
 class ContactProvider @Inject constructor(@ApplicationContext val context: Context) {

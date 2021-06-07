@@ -10,17 +10,12 @@ import jafari.alireza.contacts.model.source.local.list.entity.ContactEntity
 
 
 @Dao
-interface ListDao {
+interface ListDao:ContactDao {
+
     @Query("SELECT * FROM contacts")
-    fun getAll(): LiveData<List<ContactEntity>>
+    fun getAllLive(): LiveData<List<ContactEntity>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend   fun insert(contact: ContactEntity): Long
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend   fun insertAll(contactList: List<ContactEntity>): List<Long>
 
-    @Query("DELETE FROM contacts")
-    suspend   fun deleteAll()
 
 }

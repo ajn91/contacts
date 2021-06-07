@@ -4,9 +4,8 @@ import androidx.lifecycle.LiveData
 import jafari.alireza.contacts.model.source.local.list.entity.ContactEntity
 
 
-interface ListLocalDataSource {
-    fun getContactsLive(): LiveData<List<ContactEntity>>
-    suspend fun save(contact: ContactEntity): Long
+interface ContactLocalDataSource {
+    fun getContacts(): List<ContactEntity>
     suspend fun saveAll(contactList: List<ContactEntity>): List<Long>
     suspend fun clear()
 }

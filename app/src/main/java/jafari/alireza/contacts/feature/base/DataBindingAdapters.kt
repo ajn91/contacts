@@ -1,17 +1,22 @@
 package jafari.alireza.contacts.feature.base
 
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import jafari.alireza.contacts.utils.ImageUtils
 
-
-@BindingAdapter("imageUrl")
-fun setImageUrl(view: ImageView, imageUrl: String?) {
-    ImageUtils.showImage( imageUrl, view)
+//
+//@BindingAdapter("imageUrl")
+//fun setImageUrl(view: ImageView, imageUrl: String?) {
+//    ImageUtils.showImage( imageUrl, view)
+//
+//}
+@BindingAdapter("imageUri")
+fun setImageUri(view: ImageView, imageUri: Uri?) {
+    ImageUtils.showImage( imageUri, view)
 
 }
-
 //@BindingAdapter("imageResource")
 //fun setImageUri(view: ImageView, imageUri: String?) {
 //    if (imageUri == null) {
